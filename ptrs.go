@@ -62,3 +62,28 @@ func Make[E any](n int, fn func(i int, ptr *E)) []*E {
 	}
 	return ptrs
 }
+
+func EqualSlice[E comparable, S ~[]*E](a, b S) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, pa := range a {
+		if !Equal(pa, b[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+func Equal[E comparable](a, b *E) bool {
+	switch {
+	case a == b:
+		return true
+	case a == nil:
+		return b == nil
+	case b == nil:
+		return a == nil
+	default:
+		return *a == *b
+	}
+}
