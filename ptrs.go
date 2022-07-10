@@ -39,7 +39,7 @@ func New[E any]() *E {
 
 // Flatten returns values, obtained by dereferencing provided pointers.
 // Nil pointers will be skipped.
-// Order of elements is preseverved.
+// Order of elements will be preseverved.
 func Flatten[E any](ptrs []*E) []E {
 	var n = 0
 	for _, ptr := range ptrs {
@@ -57,6 +57,8 @@ func Flatten[E any](ptrs []*E) []E {
 	return values
 }
 
+// Ref takes pointers of provided slice elements.
+// Order of elements is preserved.
 func Ref[E any](values []E) []*E {
 	var ptrs = make([]*E, len(values))
 	for i := range values {
@@ -65,6 +67,12 @@ func Ref[E any](values []E) []*E {
 	return ptrs
 }
 
+// Make allocates slice of n elements, takes pointer of each one, 
+// and calls fn(i, ptr), where i is element index and ptr=&elements[i]. 
+// If fn is nil, then just returns pointers.
+//
+// Make function makes a big one allocation instead of creating elements one-by-one in a cycle,
+// which is much GC friendly approach and performs nearly a 2x faster.
 func Make[E any](n int, fn func(i int, ptr *E)) []*E {
 	var values = make([]E, n)
 	if fn == nil {
@@ -80,6 +88,9 @@ func Make[E any](n int, fn func(i int, ptr *E)) []*E {
 	return ptrs
 }
 
+// EqualSlice compares two slices of pointers.
+// Slices are equal if have equal lengths and each pair of pointers
+// are equal or pointing to equal values.
 func EqualSlice[E comparable, S ~[]*E](a, b S) bool {
 	if len(a) != len(b) {
 		return false
@@ -92,6 +103,7 @@ func EqualSlice[E comparable, S ~[]*E](a, b S) bool {
 	return true
 }
 
+// Equal returns true, if a==b or *a==*b.
 func Equal[E comparable](a, b *E) bool {
 	switch {
 	case a == b:
