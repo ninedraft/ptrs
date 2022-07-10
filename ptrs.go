@@ -37,6 +37,9 @@ func New[E any]() *E {
 	return new(E)
 }
 
+// Flatten returns values, obtained by dereferencing provided pointers.
+// Nil pointers will be skipped.
+// Order of elements is preseverved.
 func Flatten[E any](ptrs []*E) []E {
 	var n = 0
 	for _, ptr := range ptrs {
