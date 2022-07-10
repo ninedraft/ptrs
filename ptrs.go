@@ -1,9 +1,17 @@
 package ptrs
 
+// Of returns a pointer to copy of passed value.
+//	Of(true)  -> &true
+//	Of(false) -> &false
+//	Of("hello, world") -> &"hello, world"
 func Of[E any](value E) *E {
 	return &value
 }
 
+// Deref tries to take value from provided pointer.
+// Returns falkse, if pointer is nil.
+//	Deref(Of(1)) -> (1, true)
+//	Deref(nil)   -> (0, false)
 func Deref[E any](ptr *E) (E, bool) {
 	if ptr != nil {
 		return *ptr, true
@@ -12,6 +20,10 @@ func Deref[E any](ptr *E) (E, bool) {
 	return empty, false
 }
 
+// DerefOr tries to take value from provided pointer.
+// Returns 'or value, if ptr is nil.
+//	DerefOr(Of(1), 2) -> 1
+//	DerefOr(nil, 2)   -> 2
 func DerefOr[E any](ptr *E, or E) E {
 	if ptr != nil {
 		return *ptr
@@ -19,6 +31,8 @@ func DerefOr[E any](ptr *E, or E) E {
 	return or
 }
 
+// New returns a non-nil pointer to zero value of type E.
+// Function is useful as instantiation of typed 'new function.
 func New[E any]() *E {
 	return new(E)
 }
