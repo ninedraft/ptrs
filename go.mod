@@ -1,4 +1,4 @@
-module ptrs
+module github.com/ninedraft/ptrs
 
 go 1.18
 
