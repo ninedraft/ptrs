@@ -1,8 +1,9 @@
 package ptrs_test
 
 import (
-	"ptrs"
 	"testing"
+
+	"github.com/ninedraft/ptrs"
 )
 
 const N = 1024

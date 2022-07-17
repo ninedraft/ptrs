@@ -1,10 +1,11 @@
 package ptrs_test
 
 import (
-	"ptrs"
 	"testing"
 
 	"golang.org/x/exp/slices"
+
+	"github.com/ninedraft/ptrs"
 )
 
 func TestOf(test *testing.T) {
